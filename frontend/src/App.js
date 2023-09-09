@@ -11,6 +11,9 @@ import Products from "./component/Product/Products.js";
 import Search from "./component/Product/Search.js";
 import LoginSignUp from "./component/User/LoginSignUp.js";
 import UpdateProfile from "./component/User/UpdateProfile.js";
+import UpdatePassword from "./component/User/UpdatePassword.js";
+import ForgotPassword from "./component/User/ForgotPassword.js";
+import ResetPassword from "./component/User/ResetPassword.js";
 import store from "./store";
 import { loadUser } from "./actions/userAction";
 import { useSelector } from "react-redux";
@@ -41,6 +44,13 @@ function App() {
       <Route exact path="/login" component={LoginSignUp} />
       <ProtectedRoute exact path="/account" component={Profile} />
       <ProtectedRoute exact path="/me/update" component={UpdateProfile} />
+      <Route exact path="/password/forgot" component={ForgotPassword} />
+      <Route exact path="/password/reset/:token" component={ResetPassword} />
+      <ProtectedRoute
+        exact
+        path="/password/update"
+        component={UpdatePassword}
+      />
       <Footer />
     </Router>
   );

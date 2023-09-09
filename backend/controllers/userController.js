@@ -45,13 +45,11 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   const isPasswordMatched = await user.comparePassword(password);
-  console.log(isPasswordMatched);
 
   if (!isPasswordMatched) {
     return next(new ErrorHandler("invalid email or password.", 401));
   }
 
-  console.log(req.user);
   sendToken(user, 200, res);
 });
 
@@ -88,7 +86,6 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const resetPasswordLink = `${req.protocol}://${req.get(
     "host"
   )}/api/v1/password/reset/${await token}`;
-  console.log(resetPasswordLink);
 
   const emailMessage = `Hi Friend! \n\n This is your reset password link. \n ${resetPasswordLink} \n\n
   It will expire after 15 minutes. If you don't request this reset link. you can simply ignore this emai.`;
@@ -201,7 +198,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id);
 
     const imageId = user.avatar.public_id;
-    console.log(req);
 
     await cloudinary.v2.uploader.destroy(imageId);
 
@@ -216,8 +212,6 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
       url: myCloud.secure_url,
     };
   }
-
-  console.log(newUserData);
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
