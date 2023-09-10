@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { SpeedDial, SpeedDialAction } from "@material-ui/lab";
 import Backdrop from "@material-ui/core/Backdrop";
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -19,8 +19,19 @@ const UserOptions = ({ user }) => {
   const history = useHistory();
   const [open, setOpen] = useState(false);
 
+  const { cartItems } = useSelector((state) => state.cart);
+
   const options = [
     { icon: <ListAltIcon />, name: "Orders", func: orders },
+    {
+      icon: (
+        <ShoppingCartIcon
+          style={{ color: cartItems.length >= 1 ? "tomato" : "unset" }}
+        />
+      ),
+      name: `Cart(${cartItems.length})`,
+      func: cart,
+    },
     { icon: <PersonIcon />, name: "Profile", func: account },
     { icon: <ExitToAppIcon />, name: "Logout", func: logOut },
   ];
@@ -38,6 +49,9 @@ const UserOptions = ({ user }) => {
   }
   function account() {
     history.push("/account");
+  }
+  function cart() {
+    history.push("/cart");
   }
   function logOut() {
     dispatch(logout());

@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 
 export const getProducts =
-  (keyword = "", currentPage = 1, price = [0, 25000], category, ratings) =>
+  (keyword = "", currentPage = 1, price = [0, 25000], category, ratings = 0) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALL_PRODUCTS_REQUEST });
