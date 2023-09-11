@@ -11,7 +11,7 @@ import Loader from "../layout/Loader/Loader";
 import MetaData from "../layout/MetaData";
 import { login, clearErrors, register } from "../../actions/userAction";
 
-const LoginSignUp = ({ history }) => {
+const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -36,6 +36,7 @@ const LoginSignUp = ({ history }) => {
     (state) => state.user
   );
 
+  const redirect = location.search ? location.search.split("=")[1] : "/account";
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -43,9 +44,9 @@ const LoginSignUp = ({ history }) => {
     }
 
     if (isAuthenticated) {
-      history.push("/account");
+      history.push(redirect);
     }
-  }, [dispatch, alert, error, history, isAuthenticated]);
+  }, [dispatch, alert, error, history, isAuthenticated, redirect]);
 
   const loginSubmit = (e) => {
     e.preventDefault();
