@@ -8,12 +8,14 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       const item = action.payload;
+      console.log("cartReducer-1", item);
 
       const isItemExist = state.cartItems.find(
         (i) => i.product === item.product
       );
 
       if (isItemExist) {
+        console.log("cartReducer-2", item);
         return {
           ...state,
           cartItems: state.cartItems.map((i) =>

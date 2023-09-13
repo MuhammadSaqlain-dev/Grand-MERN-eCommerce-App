@@ -16,9 +16,10 @@ const ProductDetails = ({ match }) => {
   const alert = useAlert();
   const [quantity, setQuantity] = useState(1);
 
-  const { loading, product, error } = useSelector(
-    (state) => state.productDetails
-  );
+  const { loading, product, error } = useSelector((state) => {
+    console.log(state.productDetails);
+    return state.productDetails;
+  });
 
   const increaseValue = () => {
     if (product.stock <= quantity) return;
@@ -37,6 +38,7 @@ const ProductDetails = ({ match }) => {
   const addToCartHandler = () => {
     dispatch(addItemsToCart(match.params.id, quantity));
     alert.success("Item added to cart!");
+    console.log(product.stock);
   };
 
   useEffect(() => {
@@ -98,7 +100,7 @@ const ProductDetails = ({ match }) => {
                     <button onClick={increaseValue}>+</button>
                   </div>
                   <button
-                    disabled={product.Stock < 1 ? true : false}
+                    disabled={product.stock < 1 ? true : false}
                     onClick={addToCartHandler}
                   >
                     Add to Cart
@@ -107,8 +109,8 @@ const ProductDetails = ({ match }) => {
 
                 <p>
                   Status:
-                  <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
-                    {product.Stock < 1 ? "OutOfStock" : "InStock"}
+                  <b className={product.stock < 1 ? "redColor" : "greenColor"}>
+                    {product.stock < 1 ? "OutOfStock" : "InStock"}
                   </b>
                 </p>
               </div>

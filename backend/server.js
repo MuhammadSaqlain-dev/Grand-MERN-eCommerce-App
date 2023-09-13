@@ -2,6 +2,7 @@ const app = require("./app");
 const connectDatabase = require("./config/database");
 const cloudinary = require("cloudinary");
 
+// Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
   console.log(`Error: ${err.message}`);
   console.log("Server is shutting down due to unCaught Exceptions");

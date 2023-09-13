@@ -54,15 +54,15 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
 // get loggedIn user order
 exports.myOrders = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.find({ user: req.user._id });
+  const orders = await Order.find({ user: req.user._id });
 
-  if (!order) {
+  if (!orders) {
     next(new ErrorHandler(`order with id: ${req.params.id} not exists`), 400);
   }
 
   res.status(200).json({
     success: true,
-    order,
+    orders,
   });
 });
 
