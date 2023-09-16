@@ -5,12 +5,11 @@ import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./dashboard.css";
-// import { getAdminProduct } from "../../actions/productAction";
 // import { getAllOrders } from "../../actions/orderAction.js";
 // import { getAllUsers } from "../../actions/userAction.js";
 import Sidebar from "./Sidebar.js";
 import MetaData from "../layout/MetaData";
-import { getProducts } from "../../actions/productAction";
+import { getAdminProducts } from "../../actions/productAction";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getAdminProducts());
   }, [dispatch]);
 
   return (

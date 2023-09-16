@@ -10,7 +10,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   // cloudinary configurations
   let images = [];
 
-  if (req.body.images === "string") {
+  if (typeof req.body.images === "string") {
     images.push(req.body.images);
   } else {
     images = req.body.images;
@@ -50,35 +50,36 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("product not found.", 404));
   }
 
-  // cloudinary configurations
-  // deleting the already present images in cloudinary
-  for (let i = 0; i < product.images.length; i++) {
-    await cloudinary.v2.uploader.destroy(product.images[i].public_id);
-  }
-
-  // uploading new images in the cloudinary
   let images = [];
 
-  if (req.body.images === "string") {
+  if (typeof req.body.images === "string") {
     images.push(req.body.images);
   } else {
     images = req.body.images;
   }
 
-  const imagesLinks = [];
+  if (images !== undefined) {
+    // deleting the already present images in cloudinary
+    for (let i = 0; i < product.images.length; i++) {
+      await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    }
 
-  for (let i = 0; i < images.length; i++) {
-    const result = await cloudinary.v2.uploader.upload(images[i], {
-      folder: "products",
-    });
+    // uploading new images in the cloudinary
+    const imagesLinks = [];
 
-    imagesLinks.push({
-      public_id: result.public_id,
-      url: result.secure_url,
-    });
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesLinks;
   }
-
-  req.body.images = imagesLinks;
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

@@ -5,7 +5,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 exports.processPayments = catchAsyncErrors(async (req, res, next) => {
   const myPayment = await stripe.paymentIntents.create({
     amount: req.body.amount,
-    currency: "pkr",
+    currency: "usd",
     metadata: {
       company: "eCommerc3",
     },
