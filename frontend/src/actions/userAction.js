@@ -162,10 +162,10 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     );
     console.log(data);
 
-    dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.success });
+    dispatch({ type: RESET_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {
     dispatch({
-      type: FORGOT_PASSWORD_FAIL,
+      type: RESET_PASSWORD_FAIL,
       payload: error.response.data.message,
     });
   }

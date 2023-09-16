@@ -9,6 +9,7 @@ const sendEmail = require("../utils/sendEmail");
 
 // Register a User
 exports.createUser = catchAsyncErrors(async (req, res, next) => {
+  // console.log(req.body);
   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
