@@ -20,7 +20,7 @@
   text-decoration: none;
   color: rgba(0, 0, 0, 0.493);
   font: 200 1rem "Roboto";
-  padding: 2rem;
+  padding: 1.2rem 2rem;
   transition: all 0.5s;
 }
 .sidebar a:hover {
