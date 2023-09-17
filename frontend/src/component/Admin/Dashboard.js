@@ -5,8 +5,8 @@ import { Doughnut, Line } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./dashboard.css";
-// import { getAllOrders } from "../../actions/orderAction.js";
-// import { getAllUsers } from "../../actions/userAction.js";
+import { getAllOrders } from "../../actions/orderAction.js";
+import { getAllUsers } from "../../actions/userAction.js";
 import Sidebar from "./Sidebar.js";
 import MetaData from "../layout/MetaData";
 import { getAdminProducts } from "../../actions/productAction";
@@ -15,10 +15,17 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
-  // const {users} = useSelector(state=>state.allUsers)
-  // const {orders} = useSelector(state=>state.allOrders)
+  const { users } = useSelector((state) => state.allUsers);
+  const { orders } = useSelector((state) => state.allOrders);
 
   let totalAmount = 0;
+  orders && orders.forEach((item) => (totalAmount += item.totalPrice));
+
+  let outOfStock = 0;
+  products &&
+    products.forEach((p) => {
+      outOfStock += p.stock < 1 ? 1 : 0;
+    });
 
   const lineState = {
     labels: ["Initial Amount", "Amount Earned"],
@@ -37,13 +44,15 @@ const Dashboard = () => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [0, 12], // outOfStock, products
+        data: [outOfStock, products.length - outOfStock], // outOfStock, products
       },
     ],
   };
 
   useEffect(() => {
     dispatch(getAdminProducts());
+    dispatch(getAllOrders());
+    dispatch(getAllUsers());
   }, [dispatch]);
 
   return (
@@ -67,11 +76,11 @@ const Dashboard = () => {
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>
-              <p>{12}</p>
+              <p>{orders && orders.length}</p>
             </Link>
             <Link to="/admin/users">
               <p>Users</p>
-              <p>{4}</p>
+              <p>{users && users.length}</p>
             </Link>
           </div>
         </div>

@@ -90,7 +90,7 @@ const ProductReviews = ({ history }) => {
         id: item._id,
         rating: item.rating,
         comment: item.comment,
-        user: item.user,
+        user: item.name,
       });
     });
 
