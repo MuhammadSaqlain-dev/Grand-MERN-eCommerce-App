@@ -18,6 +18,7 @@ import "./Payment.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, createOrder } from "../../actions/orderAction";
+import { emptyCart } from "../../actions/cartAction";
 
 const Payment = ({ history }) => {
   const alert = useAlert();
@@ -46,7 +47,7 @@ const Payment = ({ history }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    payBtn.current.disbaled = true;
+    payBtn.current.disabled = true;
 
     try {
       const config = { headers: { "Content-Type": "application/json" } };
@@ -88,6 +89,7 @@ const Payment = ({ history }) => {
             status: result.paymentIntent.status,
           };
 
+          dispatch(emptyCart());
           dispatch(createOrder(order));
 
           history.push("/success");
@@ -96,7 +98,7 @@ const Payment = ({ history }) => {
         }
       }
     } catch (error) {
-      payBtn.current.disbaled = false;
+      payBtn.current.disabled = false;
       alert.error(error.response.data.message);
     }
   };
@@ -133,7 +135,7 @@ const Payment = ({ history }) => {
             type="submit"
             ref={payBtn}
             className="paymentFormBtn"
-            value={120000}
+            value={paymentData.amount}
           />
         </form>
       </div>

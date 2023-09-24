@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary");
 
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const ApiFeature = require("../utils/apiFeatures");
+const ApiFeatures = require("../utils/apiFeatures");
 
 // Creating a product -- admin
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
@@ -132,7 +132,7 @@ exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
   // return next(new ErrorHandler("this is custom error", 500));
   const productsCount = await Product.countDocuments();
   const resultsPerPage = 8;
-  const apiFeature = new ApiFeature(Product.find(), req.query)
+  const apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter();
 
@@ -148,7 +148,7 @@ exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     message: "Products are successfully retrieved.",
     products,
-    productsCount, // Total products after applying filters and pagination
+    productsCount, // Total products before applying filters and pagination
     resultsPerPage,
     filteredProductsCount, // Count of filtered products
   });

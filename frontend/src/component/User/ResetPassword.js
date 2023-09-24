@@ -38,9 +38,9 @@ const ResetPassword = ({ history, match }) => {
 
     myForm.set("newPassword", newPassword);
     myForm.set("confirmPassword", confirmPassword);
+
     dispatch(resetPassword(match.params.token, myForm));
   };
-
   return (
     <React.Fragment>
       {loading ? (

@@ -1,3 +1,7 @@
+body {
+  cursor: url("./images/cursor.png"), auto;
+}
+
 .greenColor {
   color: green !important;
 }

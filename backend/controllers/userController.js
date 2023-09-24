@@ -9,7 +9,6 @@ const sendEmail = require("../utils/sendEmail");
 
 // Register a User
 exports.createUser = catchAsyncErrors(async (req, res, next) => {
-  // console.log(req.body);
   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
@@ -69,10 +68,11 @@ exports.logOut = catchAsyncErrors(async (req, res, next) => {
 
 // heavy algoritm, I love it.
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
+  // /password/forgot
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    next(
+    return next(
       new ErrorHandler(
         `user with ${req.body.email} does not exists in out database.`,
         404
@@ -82,21 +82,21 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   const token = user.getResetPasswordToken();
 
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
 
   const resetPasswordLink = `${req.protocol}://${req.get(
     "host"
-  )}/api/v1/password/reset/${await token}`;
+  )}/api/v1/password/reset/${token}`;
 
   const emailMessage = `Hi Friend! \n\n This is your reset password link. \n ${resetPasswordLink} \n\n
-  It will expire after 15 minutes. If you don't request this reset link. you can simply ignore this emai.`;
+  It will expire after 15 minutes. If you don't request this reset link. you can simply ignore this email.`;
 
   try {
-    // sendEmail({
-    //   email: user.email,
-    //   subject: "Reset Password Link Inside | eCommerce MERN App",
-    //   emailMessage,
-    // });
+    await sendEmail({
+      email: user.email,
+      subject: "Reset Password Link Inside | eCommerce MERN App",
+      emailMessage,
+    });
 
     res.status(200).json({
       success: true,
@@ -106,18 +106,15 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 
-    user.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave: false });
 
-    next(
-      new ErrorHandler(
-        "Some error occured while sending reset password to your email. Try again after sometime."
-      )
-    );
+    return next(new ErrorHandler(error.message, 500));
   }
 });
 
 // handle reset password link
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+  // /password/reset/:token
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.params.token)
@@ -129,7 +126,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   });
 
   if (!user) {
-    next(
+    return next(
       new ErrorHandler(
         `Reset Password Token is invalid or has been expired.`,
         400
@@ -137,11 +134,13 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  if (req.body.password !== req.body.confirmPassword) {
-    next(new ErrorHandler(`password and corfirm password are not same.`, 400));
+  if (req.body.newPassword !== req.body.confirmPassword) {
+    return next(
+      new ErrorHandler(`password and corfirm password are not same.`, 400)
+    );
   }
 
-  user.password = req.body.password;
+  user.password = req.body.newPassword;
 
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;

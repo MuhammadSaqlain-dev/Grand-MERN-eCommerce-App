@@ -1,5 +1,6 @@
 import {
   ADD_TO_CART,
+  EMPTY_CART,
   REMOVE_CART_ITEM,
   SAVE_SHIPPING_INFO,
 } from "../constants/cartConstants.js";
@@ -8,14 +9,12 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       const item = action.payload;
-      console.log("cartReducer-1", item);
 
       const isItemExist = state.cartItems.find(
         (i) => i.product === item.product
       );
 
       if (isItemExist) {
-        console.log("cartReducer-2", item);
         return {
           ...state,
           cartItems: state.cartItems.map((i) =>
@@ -33,6 +32,12 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter((i) => i.product !== action.payload),
+      };
+
+    case EMPTY_CART:
+      return {
+        ...state,
+        cartItems: [],
       };
 
     case SAVE_SHIPPING_INFO:

@@ -65,9 +65,8 @@ const Dashboard = () => {
 
         <div className="dashboardSummary">
           <div>
-            <p>
-              Total Amount <br /> PKR {11}
-            </p>
+            <p style={{ whiteSpace: "pre-line" }}>{`Total Amount
+            PKR ${Math.round(totalAmount)}`}</p>
           </div>
           <div className="dashboardSummaryBox2">
             <Link to="/admin/products">

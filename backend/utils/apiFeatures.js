@@ -1,4 +1,4 @@
-class ApiFeature {
+class ApiFeatures {
   constructor(query, queryStr) {
     this.query = query;
     this.queryStr = queryStr;
@@ -18,7 +18,7 @@ class ApiFeature {
     return this;
   }
 
-  // filter w.r.t category
+  // filter w.r.t category, price, rating
   filter() {
     const queryStrCopy = { ...this.queryStr };
     // fields to remove
@@ -46,4 +46,4 @@ class ApiFeature {
   }
 }
 
-module.exports = ApiFeature;
+module.exports = ApiFeatures;
