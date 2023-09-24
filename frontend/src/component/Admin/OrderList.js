@@ -42,7 +42,7 @@ const OrderList = ({ history }) => {
     },
     {
       field: "itemsQty",
-      headerName: "Items Qty",
+      headerName: "Items",
       minWidth: 150,
       flex: 0.3,
       type: "number",

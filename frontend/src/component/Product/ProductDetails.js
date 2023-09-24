@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import ReactStars from "react-rating-stars-component";
 import {
   Dialog,
   DialogActions,
@@ -95,11 +94,10 @@ const ProductDetails = ({ match }) => {
   }, [dispatch, match.params.id, alert, error, reviewError, success]);
 
   const options = {
-    edit: false,
-    color: "rgba(20, 20,20,0.1)",
-    activeColor: "tomato",
-    value: 2,
-    isHalf: true,
+    size: "large",
+    value: product.ratings,
+    readOnly: true,
+    precision: 0.5,
   };
 
   return (
@@ -134,7 +132,7 @@ const ProductDetails = ({ match }) => {
                 <p>Product # {product._id}</p>
               </div>
               <div className="detailsBlock-2">
-                <ReactStars {...options} />
+                <Rating {...options} />
                 <span className="detailsBlock-2-span">
                   ({product.numOfReviews} Reviews)
                 </span>
