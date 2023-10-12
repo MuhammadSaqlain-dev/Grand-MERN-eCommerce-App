@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileupload());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://grand-mern-e-commerce-app-frontend.vercel.app",
     credentials: true,
   })
 );
