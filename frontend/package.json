@@ -34,6 +34,9 @@
     "web-vitals": "^1.1.2",
     "webfontloader": "^1.6.28"
   },
+  "engines": {
+    "node": "16.13.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

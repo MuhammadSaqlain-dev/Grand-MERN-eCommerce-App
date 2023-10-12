@@ -1,1 +1,1 @@
-exports.server = "http://localhost:4000";
+exports.server = "https://grand-mern-e-commerce-app.vercel.app";
