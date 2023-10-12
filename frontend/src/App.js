@@ -42,6 +42,7 @@ import UserList from "./component/Admin/UserList.js";
 import UpdateUserRole from "./component/Admin/UpdateUserRole.js";
 import ProductReviews from "./component/Admin/ProductReviews.js";
 import NotFound from "./component/layout/NotFound/NotFound";
+import { server } from "./server";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -49,7 +50,7 @@ function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
   async function getStripeApiKey() {
-    const { data } = await axios.get("/api/v1/stripeapikey");
+    const { data } = await axios.get(`${server}/api/v1/stripeapikey`);
     setStripeApiKey(data.stripeSecretKey);
   }
 
@@ -89,17 +90,8 @@ function App() {
         <Route exact path="/login" component={LoginSignUp} />
         <ProtectedRoute exact path="/account" component={Profile} />
         <ProtectedRoute exact path="/me/update" component={UpdateProfile} />
-
-        {!isAuthenticated && (
-          <Route exact path="/password/forgot" component={ForgotPassword} />
-        )}
-        {!isAuthenticated && (
-          <Route
-            exact
-            path="/password/reset/:token"
-            component={ResetPassword}
-          />
-        )}
+        <Route exact path="/password/forgot" component={ForgotPassword} />
+        <Route exact path="/password/reset/:token" component={ResetPassword} />
         <Route exact path="/cart" component={Cart} />
         <ProtectedRoute
           exact

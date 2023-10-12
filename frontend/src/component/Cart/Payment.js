@@ -19,6 +19,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, createOrder } from "../../actions/orderAction";
 import { emptyCart } from "../../actions/cartAction";
+import { server } from "../../server";
 
 const Payment = ({ history }) => {
   const alert = useAlert();
@@ -52,7 +53,7 @@ const Payment = ({ history }) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
-        "/api/v1/process/payment",
+        `${server}/api/v1/process/payment`,
         paymentData,
         config
       );

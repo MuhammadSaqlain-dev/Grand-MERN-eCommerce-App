@@ -16,7 +16,7 @@ const UpdateProfile = ({ history }) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState("/Profile.png");
+  const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
 
   const { user } = useSelector((state) => state.user);
@@ -38,6 +38,7 @@ const UpdateProfile = ({ history }) => {
     if (isUpdated) {
       alert.success("profile updated successfully!");
       history.push("/account");
+      window.location.reload();
 
       dispatch({
         type: UPDATE_PROFILE_RESET,
@@ -75,7 +76,7 @@ const UpdateProfile = ({ history }) => {
         <Loader />
       ) : (
         <React.Fragment>
-          <MetaData title="Login Register User" />
+          <MetaData title="Update User Profile" />
           <div className="updateProfileContainer">
             <div className="updateProfileBox">
               <h2 className="updateProfileHeading">Update Profile</h2>
@@ -119,7 +120,7 @@ const UpdateProfile = ({ history }) => {
                 </div>
                 <input
                   type="submit"
-                  value="Register"
+                  value="Update"
                   className="updateProfileBtn"
                 />
               </form>
